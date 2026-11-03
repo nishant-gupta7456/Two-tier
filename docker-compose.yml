@@ -44,8 +44,7 @@ services:
       start_period: 30s
 
 volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./message.sql:/docker-entrypoint-initdb.d/message.sql
+  mysql-data:
 
 networks:
   twotier:
