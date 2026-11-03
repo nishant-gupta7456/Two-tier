@@ -1,33 +1,33 @@
 pipeline{
     
-    agent { label "dev" }
-    
+    agent any;
     stages{
-        stage("Code Clone"){
+        stage("Code Colne"){
             steps{
-                git url: "https://github.com/nishant-gupta7456/Two-tier.git", branch: "main"
+                git url: "https://github.com/nishant-gupta7456/Two-tier.git",
+                branch: "main"
             }
         }
-        stage("Bulid"){
+        stage("Build"){
             steps{
-                sh "docker build -t my-app:latest ."
+                sh "docker build -t two-tier-flask-app ."
             }
         }
         stage("Test"){
             steps{
-                echo "Dev/tester test likh kr denge..."
+                echo "2"
             }
         }
         stage("Push to docker hub"){
             steps{
                 withCredentials([usernamePassword(
-                    credentialsId:"dockerHubCreds", 
-                    passwordVariable:"dockerHubPass",
-                    usernameVariable:"dockerHubUser"
-                    )]){
+                    credentialsId: "dockerHubCreds",
+                    passwordVariable: "dockerHubPass",
+                    usernameVariable: "dockerHubUser"
+                )]){
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker image tag my-app ${env.dockerHubUser}/my-app"
-                sh "docker push ${env.dockerHubUser}/my-app:latest "
+                sh "docker image tag two-tier-flask-app ${dockerHubUser}/two-tier-flask-app"
+                sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
                 }
             }
         }
@@ -37,5 +37,4 @@ pipeline{
             }
         }
     }
-    
 }
